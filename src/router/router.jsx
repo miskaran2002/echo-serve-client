@@ -9,6 +9,7 @@ import AllServices from "../pages/Allservices/AllServices";
 import serviceDetails from "../pages/serviceDetails/serviceDetails";
 import PrivateRoute from "../routes/PrivateRoute";
 import AddServices from "../pages/Addservices/AddServices";
+import ServiceDetails from "../pages/serviceDetails/serviceDetails";
   
 
 const router = createBrowserRouter([
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
             },
             {
                 path:"/services/:id",
-                Component:serviceDetails,
+                element:<PrivateRoute><ServiceDetails></ServiceDetails></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:3000/services/${params.id}`)
             },
 
