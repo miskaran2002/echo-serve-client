@@ -3,11 +3,14 @@ import ThemeSlider from './ThemeSlider';
 import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import MeetOurPartners from './MeetOurPartners';
+import FeaturedServices from './FeaturedServices';
 
 const Home = () => {
+    
     return (
         <div>
             <ThemeSlider></ThemeSlider>
+            <FeaturedServices></FeaturedServices> 
             <HowItWorks></HowItWorks>
             <Testimonials></Testimonials>
             <MeetOurPartners></MeetOurPartners>
