@@ -1,13 +1,15 @@
 import Lottie from 'lottie-react';
 import React, { useContext } from 'react';
-import { useNavigate, Link } from 'react-router'; // ✅ Corrected
+import { useNavigate, Link } from 'react-router'; 
 import signUpLottie from '../../../assets/lotties/SignUp.json';
 import { AuthContext } from '../../../contexts/Authcontext/AuthContext';
-import { updateProfile } from 'firebase/auth'; // ✅ Needed to update name/photo
+import { updateProfile } from 'firebase/auth'; 
+import Swal from 'sweetalert2';
+
 
 const Signup = () => {
     const { createUser, signOutUser } = useContext(AuthContext);
-    const navigate = useNavigate(); // ✅ Correct way to redirect
+    const navigate = useNavigate(); // 
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -29,13 +31,27 @@ const Signup = () => {
                 });
             })
             .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Signup Successful!',
+                    text: 'Please login now.',
+                    confirmButtonColor: '#6366f1'
+                });
                 // Optionally sign out and redirect to login
                 return signOutUser();
             })
             .then(() => {
                 navigate('/login');
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Signup Failed!',
+                    text: error.message,
+                    confirmButtonColor: '#ef4444'
+                });
+                console.log(error)
+            });
     };
 
     return (
@@ -73,6 +89,8 @@ const Signup = () => {
 
                                 <button className="btn btn-secondary mt-4">Signup</button>
                             </fieldset>
+
+                           
                         </form>
                     </div>
                 </div>

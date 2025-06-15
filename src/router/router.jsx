@@ -7,6 +7,8 @@ import Signup from "../pages/Shared/signup/Signup";
 import Login from "../pages/Shared/login/Login";
 import AllServices from "../pages/Allservices/AllServices";
 import serviceDetails from "../pages/serviceDetails/serviceDetails";
+import PrivateRoute from "../routes/PrivateRoute";
+import AddServices from "../pages/Addservices/AddServices";
   
 
 const router = createBrowserRouter([
@@ -23,6 +25,10 @@ const router = createBrowserRouter([
                 path:"/allServices",
                 Component:AllServices
 
+            },
+            {
+                path:"/addServices",
+                element:<PrivateRoute><AddServices></AddServices></PrivateRoute>
             },
             {
                 path:"/services/:id",
