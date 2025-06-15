@@ -47,6 +47,16 @@ const Navbar = () => {
                     Add Services
                 </NavLink>
             </li>
+            <li>
+                <NavLink
+                    to="/myServices"
+                    className={({ isActive }) =>
+                        `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
+                    }
+                >
+                    My Services
+                </NavLink>
+            </li>
         </>
     );
 
