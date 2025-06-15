@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router';
 import { AuthContext } from '../../contexts/Authcontext/AuthContext';
 import Rating from 'react-rating';
 import { FaStar, FaRegStar } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const ServiceDetails = () => {
     const service = useLoaderData();
@@ -16,12 +16,32 @@ const ServiceDetails = () => {
     useEffect(() => {
         fetch(`http://localhost:3000/reviews?serviceId=${service._id}`)
             .then(res => res.json())
-            .then(data => setReviews(data));
+            .then(data => setReviews(data))
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed to load reviews!',
+                    text: 'Please check your internet or try again later.',
+                });
+            });
     }, [service._id]);
 
     const handleSubmitReview = () => {
         if (!user) {
-            toast.error('You must be logged in to submit a review!');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Not Logged In!',
+                text: 'You must be logged in to submit a review.',
+            });
+            return;
+        }
+
+        if (!newReview.trim() || rating === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Incomplete!',
+                text: 'Please write a review and provide a rating.',
+            });
             return;
         }
 
@@ -43,13 +63,31 @@ const ServiceDetails = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.insertedId) {
-                    toast.success('Review submitted successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Review Submitted!',
+                        text: 'Your review has been added successfully.',
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
                     setReviews(prev => [...prev, reviewData]);
                     setNewReview('');
                     setRating(0);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Submission Failed!',
+                        text: 'Something went wrong. Please try again.',
+                    });
                 }
             })
-            .catch(err => toast.error('Failed to submit review.'));
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Server Error!',
+                    text: 'Could not submit review. Please try again later.',
+                });
+            });
     };
 
     return (
@@ -61,7 +99,7 @@ const ServiceDetails = () => {
                 <p className="text-gray-600 mt-2">{service.description}</p>
                 <div className="mt-4 space-y-2">
                     <p><strong>Company:</strong> {service.companyName}</p>
-                    <p><strong>Website:</strong> <a href={service.website} className="text-blue-600 underline">{service.website}</a></p>
+                    <p><strong>Website:</strong> <a href={service.website} className="text-blue-600 underline" target="_blank" rel="noreferrer">{service.website}</a></p>
                     <p><strong>Category:</strong> {service.category}</p>
                     <p><strong>Price:</strong> ${service.price}</p>
                     <p><strong>Added Date:</strong> {new Date(service.addedDate).toLocaleString()}</p>
