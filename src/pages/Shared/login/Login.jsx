@@ -21,11 +21,40 @@ const Login = () => {
 
         signInUser(email, password)
             .then(result => {
-                console.log(result.user);
+                const loggedUser = result.user;
+
+                // Check if user already exists in the DB
+                fetch(`http://localhost:3000/users?email=${loggedUser.email}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.exists) {
+                            // User doesn't exist, save to DB
+                            fetch('http://localhost:3000/users', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    name: loggedUser.displayName || 'Anonymous',
+                                    email: loggedUser.email,
+                                    photo: loggedUser.photoURL || '',
+                                }),
+                            })
+                                .then(res => res.json())
+                                .then(saved => {
+                                    console.log('User saved to DB:', saved);
+                                })
+                                .catch(err => console.error(' Save error:', err));
+                        }
+                    });
+
                 navigate(from);
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(' Login error:', error);
+            });
     };
+    
 
     return (
         <motion.div
