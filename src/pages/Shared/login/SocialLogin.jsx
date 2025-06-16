@@ -30,11 +30,11 @@ const SocialLogin = ({ from }) => {
                             })
                                 .then(res => res.json())
                                 .then(saved => {
-                                    console.log('✅ Google user saved:', saved);
+                                    console.log(' Google user saved:', saved);
                                     navigate(from || '/');
                                 })
                                 .catch(error => {
-                                    console.error('❌ Save error:', error);
+                                    console.error(' Save error:', error);
                                 });
                         } else {
                             // Already exists, just navigate
@@ -43,7 +43,7 @@ const SocialLogin = ({ from }) => {
                     });
             })
             .catch(error => {
-                console.error('❌ Google login error:', error);
+                console.error(' Google login error:', error);
             });
     };
 
