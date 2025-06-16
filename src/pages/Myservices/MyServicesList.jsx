@@ -69,27 +69,41 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
     return (
         <div className="p-4">
             <h2 className='text-3xl font-bold mb-4'>Services created by you: {services.length}</h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto bg-white rounded-xl shadow-lg p-4">
                 <table className="table w-full">
                     <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Actions</th>
+                        <tr className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                            <th className="py-3 px-4 text-left">Logo</th>
+                            <th className="py-3 px-4 text-left">Title</th>
+                            <th className="py-3 px-4 text-left">Category</th>
+                            <th className="py-3 px-4 text-left">Price</th>
+                            <th className="py-3 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {services.map(service => (
-                            <tr key={service._id}>
-                                <td>{service.serviceTitle}</td>
-                                <td>{service.category}</td>
-                                <td>${service.price}</td>
-                                <td className="flex gap-2">
-                                    <button className="btn btn-sm btn-info" onClick={() => openEditModal(service)}>
+                            <tr key={service._id} className="hover:bg-gray-50 transition duration-200">
+                                <td className="py-3 px-4">
+                                    <img
+                                        src={service.serviceImage}
+                                        alt={service.serviceTitle}
+                                        className="w-16 h-16 object-cover rounded-lg border border-gray-300"
+                                    />
+                                </td>
+                                <td className="py-3 px-4 font-semibold text-gray-800">{service.serviceTitle}</td>
+                                <td className="py-3 px-4 text-gray-600">{service.category}</td>
+                                <td className="py-3 px-4 text-green-600 font-medium">${service.price}</td>
+                                <td className="py-3 px-4 flex gap-2">
+                                    <button
+                                        className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white"
+                                        onClick={() => openEditModal(service)}
+                                    >
                                         <FaEdit />
                                     </button>
-                                    <button className="btn btn-sm btn-error" onClick={() => handleDelete(service._id)}>
+                                    <button
+                                        className="btn btn-sm bg-red-500 hover:bg-red-600 text-white"
+                                        onClick={() => handleDelete(service._id)}
+                                    >
                                         <FaTrash />
                                     </button>
                                 </td>
@@ -98,6 +112,7 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
                     </tbody>
                 </table>
             </div>
+
 
             {/* Update Modal */}
             {isOpen && (
