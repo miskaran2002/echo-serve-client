@@ -4,6 +4,7 @@ import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import MeetOurPartners from './MeetOurPartners';
 import FeaturedServices from './FeaturedServices';
+import CountUpStats from './CountUpStats';
 
 const Home = () => {
     
@@ -11,9 +12,11 @@ const Home = () => {
         <div>
             <ThemeSlider></ThemeSlider>
             <FeaturedServices></FeaturedServices> 
+            <CountUpStats></CountUpStats>
+            <MeetOurPartners></MeetOurPartners>    
             <HowItWorks></HowItWorks>
             <Testimonials></Testimonials>
-            <MeetOurPartners></MeetOurPartners>
+            
             
         </div>
     );
