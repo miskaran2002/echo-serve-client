@@ -3,6 +3,15 @@ import { AuthContext } from '../../contexts/Authcontext/AuthContext';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
 
+const categoriesList = [
+    'Web Development',
+    'Design',
+    'Digital Marketing',
+    'Writing',
+    'Consulting',
+    'Others'
+];
+
 const AddServices = () => {
     const { user } = useContext(AuthContext);
 
@@ -12,7 +21,7 @@ const AddServices = () => {
         companyName: '',
         website: '',
         description: '',
-        category: '',
+        category: [],
         price: ''
     });
 
@@ -22,6 +31,16 @@ const AddServices = () => {
             ...prev,
             [name]: value
         }));
+    };
+
+    const handleCategoryChange = e => {
+        const { value, checked } = e.target;
+        setFormData(prev => {
+            const newCategories = checked
+                ? [...prev.category, value]
+                : prev.category.filter(cat => cat !== value);
+            return { ...prev, category: newCategories };
+        });
     };
 
     const handleSubmit = e => {
@@ -54,7 +73,7 @@ const AddServices = () => {
                         companyName: '',
                         website: '',
                         description: '',
-                        category: '',
+                        category: [],
                         price: ''
                     });
                 } else {
@@ -122,15 +141,6 @@ const AddServices = () => {
                     className="input input-bordered w-full"
                 />
                 <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    placeholder="Category"
-                    required
-                    className="input input-bordered w-full"
-                />
-                <input
                     type="number"
                     name="price"
                     value={formData.price}
@@ -139,6 +149,26 @@ const AddServices = () => {
                     required
                     className="input input-bordered w-full"
                 />
+
+                {/* Category checkboxes */}
+                <div className="md:col-span-2">
+                    <p className="mb-2 font-semibold text-gray-700">Select Categories:</p>
+                    <div className="flex flex-wrap gap-4">
+                        {categoriesList.map(cat => (
+                            <label key={cat} className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    value={cat}
+                                    checked={formData.category.includes(cat)}
+                                    onChange={handleCategoryChange}
+                                    className="checkbox"
+                                />
+                                <span className="text-sm">{cat}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
                 <textarea
                     name="description"
                     value={formData.description}
