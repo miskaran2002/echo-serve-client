@@ -12,6 +12,7 @@ import AddServices from "../pages/Addservices/AddServices";
 import ServiceDetails from "../pages/serviceDetails/serviceDetails";
 import MyServices from "../pages/Myservices/MyServices";
 import MyReviews from "../myreviews/MyReviews";
+import ErrorPage from "../pages/errorpage/ErrorPage";
   
 
 const router = createBrowserRouter([
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path: "/*",
+        element: <ErrorPage></ErrorPage>
+      }
 ]);
 
 export default router;
