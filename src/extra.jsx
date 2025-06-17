@@ -15,7 +15,7 @@ const MyReviews = () => {
     // Load user's reviews
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:3000/reviews?userEmail=${user.email}`)
+            fetch(`https://echo-serve-server.vercel.app/reviews?userEmail=${user.email}`)
                 .then(res => res.json())
                 .then(data => setReviews(data));
         }
@@ -31,7 +31,7 @@ const MyReviews = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then(result => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/reviews/${id}`, {
+                fetch(`https://echo-serve-server.vercel.app/reviews/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
@@ -52,7 +52,7 @@ const MyReviews = () => {
         const text = form.text.value;
         const rating = parseInt(form.rating.value);
 
-        fetch(`http://localhost:3000/reviews/${editingReview._id}`, {
+        fetch(`https://echo-serve-server.vercel.app/reviews/${editingReview._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text, rating })

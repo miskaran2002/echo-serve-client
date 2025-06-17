@@ -1,5 +1,5 @@
 import {
-    createBrowserRouter,  
+    createBrowserRouter,
 } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home/Home";
@@ -13,40 +13,40 @@ import ServiceDetails from "../pages/serviceDetails/serviceDetails";
 import MyServices from "../pages/Myservices/MyServices";
 import MyReviews from "../myreviews/MyReviews.jsx";
 import ErrorPage from "../pages/errorpage/ErrorPage";
-  
+
 
 const router = createBrowserRouter([
     {
         path: "/",
-        Component:RootLayout,
-        children:[
+        Component: RootLayout,
+        children: [
             {
                 index: true,
-                Component:Home
+                Component: Home
 
             },
             {
-                path:"/allServices",
-                Component:AllServices
+                path: "/allServices",
+                Component: AllServices
 
             },
             {
-                path:"/addServices",
-                element:<PrivateRoute><AddServices></AddServices></PrivateRoute>
+                path: "/addServices",
+                element: <PrivateRoute><AddServices></AddServices></PrivateRoute>
             },
             {
-                path:"/myServices",
-                element:<PrivateRoute><MyServices></MyServices></PrivateRoute>
+                path: "/myServices",
+                element: <PrivateRoute><MyServices></MyServices></PrivateRoute>
             },
             {
-                path:"/myReviews",
-                element:<PrivateRoute><MyReviews></MyReviews></PrivateRoute>
+                path: "/myReviews",
+                element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
             },
-            
+
             {
-                path:"/services/:id",
-                element:<PrivateRoute><ServiceDetails></ServiceDetails></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:3000/services/${params.id}`)
+                path: "/services/:id",
+                element: <PrivateRoute><ServiceDetails></ServiceDetails></PrivateRoute>,
+                loader: ({ params }) => fetch(`https://echo-serve-server.vercel.app/services/${params.id}`)
             },
 
             {
@@ -54,15 +54,15 @@ const router = createBrowserRouter([
                 Component: Signup
             },
             {
-                path:"/login",
-                Component:Login
+                path: "/login",
+                Component: Login
             }
         ]
     },
     {
         path: "/*",
         element: <ErrorPage></ErrorPage>
-      }
+    }
 ]);
 
 export default router;

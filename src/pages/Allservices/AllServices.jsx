@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router';
-import useAuth from '../../hook/useAuth'; 
+import useAuth from '../../hook/useAuth';
 
 const AllServices = () => {
     const { user } = useAuth();
@@ -23,7 +23,7 @@ const AllServices = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                let url = 'http://localhost:3000/allServices';
+                let url = 'https://echo-serve-server.vercel.app/allServices';
                 let headers = {};
 
                 if (user && user.getIdToken) {

@@ -53,7 +53,7 @@ const AddServices = () => {
             userEmail: user?.email
         };
 
-        fetch('http://localhost:3000/services', {
+        fetch('https://echo-serve-server.vercel.app/services', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(service)

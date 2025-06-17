@@ -12,12 +12,12 @@ const SocialLogin = ({ from }) => {
                 const user = result.user;
 
                 // Step 1: Check if user already exists
-                fetch(`http://localhost:3000/users?email=${user.email}`)
+                fetch(`https://echo-serve-server.vercel.app/users?email=${user.email}`)
                     .then(res => res.json())
                     .then(data => {
                         if (!data.exists) {
                             // Step 2: Save new user to DB
-                            fetch('http://localhost:3000/users', {
+                            fetch('https://echo-serve-server.vercel.app/users', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

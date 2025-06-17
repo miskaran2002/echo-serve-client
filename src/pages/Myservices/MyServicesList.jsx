@@ -19,7 +19,7 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/services/${id}`, {
+                fetch(`https://echo-serve-server.vercel.app/services/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
@@ -51,7 +51,7 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
             price: parseFloat(form.price.value)
         };
 
-        fetch(`http://localhost:3000/services/${selectedService._id}`, {
+        fetch(`https://echo-serve-server.vercel.app/services/${selectedService._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedService)

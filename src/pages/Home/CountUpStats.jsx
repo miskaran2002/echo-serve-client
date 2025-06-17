@@ -7,7 +7,7 @@ const CountUpStats = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:3000/platform-stats')
+        fetch('https://echo-serve-server.vercel.app/platform-stats')
             .then(res => res.json())
             .then(data => {
                 setStats(data);

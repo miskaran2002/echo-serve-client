@@ -24,12 +24,12 @@ const Login = () => {
                 const loggedUser = result.user;
 
                 // Check if user already exists in the DB
-                fetch(`http://localhost:3000/users?email=${loggedUser.email}`)
+                fetch(`https://echo-serve-server.vercel.app/users?email=${loggedUser.email}`)
                     .then(res => res.json())
                     .then(data => {
                         if (!data.exists) {
                             // User doesn't exist, save to DB
-                            fetch('http://localhost:3000/users', {
+                            fetch('https://echo-serve-server.vercel.app/users', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const Login = () => {
                 console.error(' Login error:', error);
             });
     };
-    
+
 
     return (
         <motion.div

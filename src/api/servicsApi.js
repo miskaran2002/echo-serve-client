@@ -1,8 +1,8 @@
- export  const servicesCreatedByPromise = (email,accessToken) => {
-    return fetch(`http://localhost:3000/services?email=${email}`,{
+export const servicesCreatedByPromise = (email, accessToken) => {
+    return fetch(`https://echo-serve-server.vercel.app/services?email=${email}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
-         }
+        }
     })
-    .then(res => res.json())
+        .then(res => res.json())
 }

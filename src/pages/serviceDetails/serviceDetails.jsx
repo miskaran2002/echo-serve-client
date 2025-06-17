@@ -14,7 +14,7 @@ const ServiceDetails = () => {
 
     // Fetch reviews for this service
     useEffect(() => {
-        fetch(`http://localhost:3000/reviews?serviceId=${service._id}`)
+        fetch(`https://echo-serve-server.vercel.app/reviews?serviceId=${service._id}`)
             .then(res => res.json())
             .then(data => setReviews(data))
             .catch(() => {
@@ -56,7 +56,7 @@ const ServiceDetails = () => {
             date: new Date().toISOString()
         };
 
-        fetch('http://localhost:3000/reviews', {
+        fetch('https://echo-serve-server.vercel.app/reviews', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(reviewData)
