@@ -11,7 +11,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import AddServices from "../pages/Addservices/AddServices";
 import ServiceDetails from "../pages/serviceDetails/serviceDetails";
 import MyServices from "../pages/Myservices/MyServices";
-import MyReviews from "../myreviews/MyReviews";
+import MyReviews from "../myreviews/MyReviews.jsx";
 import ErrorPage from "../pages/errorpage/ErrorPage";
   
 
@@ -42,6 +42,7 @@ const router = createBrowserRouter([
                 path:"/myReviews",
                 element:<PrivateRoute><MyReviews></MyReviews></PrivateRoute>
             },
+            
             {
                 path:"/services/:id",
                 element:<PrivateRoute><ServiceDetails></ServiceDetails></PrivateRoute>,
