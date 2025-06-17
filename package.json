@@ -12,6 +12,8 @@
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@tailwindcss/vite": "^4.1.10",
+    "admin": "^1.4.1",
+    "axios": "^1.10.0",
     "firebase": "^11.9.1",
     "framer-motion": "^12.18.1",
     "lottie-react": "^2.4.1",

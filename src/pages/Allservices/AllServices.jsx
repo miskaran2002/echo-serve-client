@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router';
+import useAuth from '../../hook/useAuth'; 
 
 const AllServices = () => {
+    const { user } = useAuth();
     const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,21 +17,42 @@ const AllServices = () => {
         'Digital Marketing',
         'Writing',
         'Consulting',
-        'Others'
+        'Others',
     ];
 
     useEffect(() => {
-        fetch('http://localhost:3000/services')
-            .then(res => res.json())
-            .then(data => {
-                setServices(data);
-                setLoading(false);
-            })
-            .catch(error => {
+        const fetchServices = async () => {
+            try {
+                let url = 'http://localhost:3000/allServices';
+                let headers = {};
+
+                if (user && user.getIdToken) {
+                    const token = await user.getIdToken();
+                    headers.authorization = `Bearer ${token}`;
+                }
+
+                const res = await fetch(url, { headers });
+                const data = await res.json();
+
+                if (Array.isArray(data)) {
+                    setServices(data);
+                } else if (data?.message === 'unauthorized access') {
+                    console.warn('Unauthorized access detected. Showing empty services.');
+                    setServices([]);
+                } else {
+                    console.error('Unexpected data structure:', data);
+                    setServices([]);
+                }
+            } catch (error) {
                 console.error('Error loading services:', error);
+                setServices([]);
+            } finally {
                 setLoading(false);
-            });
-    }, []);
+            }
+        };
+
+        fetchServices();
+    }, [user]);
 
     useEffect(() => {
         filterAndSearch();
@@ -43,7 +66,7 @@ const AllServices = () => {
         let filtered = [...services];
 
         if (selectedCategory) {
-            filtered = filtered.filter(service => {
+            filtered = filtered.filter((service) => {
                 if (!service.category || typeof service.category !== 'string') return false;
                 if (fixedCategories.includes(service.category)) {
                     return service.category === selectedCategory;
@@ -55,10 +78,12 @@ const AllServices = () => {
 
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
-            filtered = filtered.filter(service =>
-                service.serviceTitle?.toLowerCase().includes(term) ||
-                (typeof service.category === 'string' && service.category.toLowerCase().includes(term)) ||
-                service.companyName?.toLowerCase().includes(term)
+            filtered = filtered.filter(
+                (service) =>
+                    service.serviceTitle?.toLowerCase().includes(term) ||
+                    (typeof service.category === 'string' &&
+                        service.category.toLowerCase().includes(term)) ||
+                    service.companyName?.toLowerCase().includes(term)
             );
         }
 
@@ -90,7 +115,9 @@ const AllServices = () => {
                 >
                     <option value="">All Categories</option>
                     {fixedCategories.map((cat, idx) => (
-                        <option key={idx} value={cat}>{cat}</option>
+                        <option key={idx} value={cat}>
+                            {cat}
+                        </option>
                     ))}
                 </select>
             </div>

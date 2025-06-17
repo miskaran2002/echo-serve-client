@@ -6,9 +6,11 @@ import ReviewsList from './ReviewsList';
 
 const MyReviews = () => {
     const { user } = useAuth();
+    console.log('token in the context', user.accessToken);
 
     // Pass a function that returns the promise, not the promise itself
-    const getReviews = () => reviewsByUserPromise(user.email);
+    const getReviews = () => reviewsByUserPromise(user.email, user.accessToken);
+    
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">

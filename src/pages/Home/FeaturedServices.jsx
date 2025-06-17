@@ -5,7 +5,7 @@ const FeaturedServices = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:3000/services?limit=6')
+        fetch('http://localhost:3000/sixServices?limit=6')
 
             .then(res => res.json())
             .then(data => {
