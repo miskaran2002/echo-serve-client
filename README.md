@@ -1,12 +1,53 @@
-# React + Vite
+# Echo-Serve Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Echo-Serve is a full-stack service review platform that allows users to browse, add, and review various services. Authenticated users can manage their own services and reviews securely.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 Features
 
-## Expanding the ESLint configuration
+- 🔐 **Authentication & Authorization**
+  - Firebase Authentication (Email/Password & Google Login)
+  - JWT-based backend route protection
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🧾 **Services**
+  - Add new services
+  - View all available services
+  - View single service details
+  - Filter featured services
+  - See total review count per service
+
+- 🗣️ **Reviews**
+  - Submit reviews (with rating, date, and user info)
+  - View all reviews of a service
+  - Logged-in users can update/delete their own reviews
+
+- 👤 **User Dashboard**
+  - My Services: Update/Delete services added by user
+  - My Reviews: Update/Delete reviews submitted by user
+
+- 🌐 **Responsive UI**
+  - Clean, mobile-friendly design
+  - Dark/light theme toggle using Context API
+
+---
+
+## ⚙️ Technologies Used
+
+- Frontend:
+  - React.js (Vite)
+  - React Router DOM
+  - Firebase Auth
+  - React Rating
+  - Tailwind CSS + DaisyUI
+  - Context API
+
+- Backend:
+  - Node.js
+  - Express.js
+  - MongoDB (Atlas)
+  - Firebase Admin SDK (JWT verification)
+
+---
+
+## 📁 Project Structure
