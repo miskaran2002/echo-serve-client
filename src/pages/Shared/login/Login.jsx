@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import loginLottie from '../../../assets/lotties/Login.json';
 import Lottie from 'lottie-react';
 import { AuthContext } from '../../../contexts/Authcontext/AuthContext';
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from './SocialLogin';
 import { motion } from 'framer-motion';
 
@@ -102,7 +102,10 @@ const Login = () => {
                                     placeholder="Password"
                                 />
                                 <div><a className="link link-hover">Forgot password?</a></div>
+                               
                                 <button className="btn btn-primary mt-4">Sign In</button>
+
+                                <div><Link to="/signUp" className="link link-hover">Don't have an account? Sign Up</Link></div>
                             </fieldset>
                         </form>
 

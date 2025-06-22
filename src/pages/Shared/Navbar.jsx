@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Logo from '../../assets/logo.png';
-import { NavLink, Link } from 'react-router'; 
+import { NavLink, Link } from 'react-router';
 import { FaSignInAlt } from 'react-icons/fa';
 import { SiGnuprivacyguard } from 'react-icons/si';
 import { CgLogOut } from 'react-icons/cg';
@@ -37,36 +37,42 @@ const Navbar = () => {
                     All Services
                 </NavLink>
             </li>
-            <li>
-                <NavLink
-                    to="/addServices"
-                    className={({ isActive }) =>
-                        `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
-                    }
-                >
-                    Add Services
-                </NavLink>
-            </li>
-            <li>
-                <NavLink
-                    to="/myServices"
-                    className={({ isActive }) =>
-                        `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
-                    }
-                >
-                    My Services
-                </NavLink>
-            </li>
-            <li>
-                <NavLink
-                    to="/myReviews"
-                    className={({ isActive }) =>
-                        `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
-                    }
-                >
-                    My Reviews
-                </NavLink>
-            </li>
+            {
+                user && (<li>
+                    <NavLink
+                        to="/addServices"
+                        className={({ isActive }) =>
+                            `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
+                        }
+                    >
+                        Add Services
+                    </NavLink>
+                </li>)
+            }
+            {
+                user && (<li>
+                    <NavLink
+                        to="/myServices"
+                        className={({ isActive }) =>
+                            `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
+                        }
+                    >
+                        My Services
+                    </NavLink>
+                </li>)
+            }
+            {
+                user && (<li>
+                    <NavLink
+                        to="/myReviews"
+                        className={({ isActive }) =>
+                            `relative text-blue-700 text-xl font-medium transition duration-300 hover:text-blue-900 before:content-[''] before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-300 ${isActive ? 'before:w-full' : 'before:w-0'}`
+                        }
+                    >
+                        My Reviews
+                    </NavLink>
+                </li>)
+            }
         </>
     );
 
