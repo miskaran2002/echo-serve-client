@@ -122,8 +122,8 @@ const AllServices = () => {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Left Sidebar */}
-                <div className="w-full md:w-1/4 bg-white rounded-lg shadow-lg p-4 space-y-4 h-fit">
-                    <h3 className="text-lg font-bold text-gray-700 border-b pb-2">Filter Services</h3>
+                <div className="w-full md:w-1/4 bg-white rounded-lg shadow-lg p-4 space-y-4 lg:h-[1000px]">
+                    <h3 className="text-lg font-bold text-blue-700 border-b pb-2">Filter Services</h3>
 
                     {/* Search */}
                     <input
