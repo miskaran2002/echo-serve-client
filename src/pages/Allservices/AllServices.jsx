@@ -10,6 +10,9 @@ const AllServices = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const servicesPerPage = 6;
 
     const fixedCategories = [
         'Web Development',
@@ -36,11 +39,7 @@ const AllServices = () => {
 
                 if (Array.isArray(data)) {
                     setServices(data);
-                } else if (data?.message === 'unauthorized access') {
-                    console.warn('Unauthorized access detected. Showing empty services.');
-                    setServices([]);
                 } else {
-                    console.error('Unexpected data structure:', data);
                     setServices([]);
                 }
             } catch (error) {
@@ -56,10 +55,15 @@ const AllServices = () => {
 
     useEffect(() => {
         filterAndSearch();
-    }, [searchTerm, selectedCategory, services]);
+    }, [searchTerm, selectedCategory, services, sortOrder]);
 
     const handleCategorySelect = (e) => {
         setSelectedCategory(e.target.value);
+        setCurrentPage(1); // Reset to page 1 when category changes
+    };
+
+    const handleSortChange = (e) => {
+        setSortOrder(e.target.value);
     };
 
     const filterAndSearch = () => {
@@ -87,7 +91,25 @@ const AllServices = () => {
             );
         }
 
+        if (sortOrder === 'asc') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else if (sortOrder === 'desc') {
+            filtered.sort((a, b) => b.price - a.price);
+        }
+
         setFilteredServices(filtered);
+    };
+
+    const indexOfLastService = currentPage * servicesPerPage;
+    const indexOfFirstService = indexOfLastService - servicesPerPage;
+    const currentServices = filteredServices.slice(indexOfFirstService, indexOfLastService);
+
+    const totalPages = Math.ceil(filteredServices.length / servicesPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
     };
 
     if (loading) {
@@ -98,66 +120,121 @@ const AllServices = () => {
         <div className="px-4 md:px-10 py-8">
             <h2 className="text-3xl font-bold text-yellow-500 text-center mb-8">All Services</h2>
 
-            {/* Search & Category Filter */}
-            <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
-                <input
-                    type="text"
-                    placeholder="Search by title, category, or company..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input input-bordered w-full md:w-1/2"
-                />
+            <div className="flex flex-col md:flex-row gap-6">
+                {/* Left Sidebar */}
+                <div className="w-full md:w-1/4 bg-white rounded-lg shadow-lg p-4 space-y-4 h-fit">
+                    <h3 className="text-lg font-bold text-gray-700 border-b pb-2">Filter Services</h3>
 
-                <select
-                    value={selectedCategory}
-                    onChange={handleCategorySelect}
-                    className="select select-bordered w-full md:w-1/4"
-                >
-                    <option value="">All Categories</option>
-                    {fixedCategories.map((cat, idx) => (
-                        <option key={idx} value={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                    {/* Search */}
+                    <input
+                        type="text"
+                        placeholder="Search by title, category, or company..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="input input-bordered w-full"
+                    />
 
-            {/* No data message */}
-            {filteredServices.length === 0 ? (
-                <div className="text-center text-red-500 text-lg font-medium py-10">
-                    No services found for this category or search term.
+                    {/* Category Filter */}
+                    <select
+                        value={selectedCategory}
+                        onChange={handleCategorySelect}
+                        className="select select-bordered w-full"
+                    >
+                        <option value="">All Categories</option>
+                        {fixedCategories.map((cat, idx) => (
+                            <option key={idx} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* Sort Filter */}
+                    <select
+                        value={sortOrder}
+                        onChange={handleSortChange}
+                        className="select select-bordered w-full"
+                    >
+                        <option value="">Sort by Price</option>
+                        <option value="asc">Price: Low to High</option>
+                        <option value="desc">Price: High to Low</option>
+                    </select>
                 </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {filteredServices.map((service, index) => (
-                        <motion.div
-                            key={service._id}
-                            className="bg-white rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <img
-                                src={service.serviceImage}
-                                alt={service.serviceTitle}
-                                className="w-full h-48 object-cover"
-                            />
-                            <div className="p-4 space-y-2">
-                                <h3 className="text-xl font-semibold">{service.serviceTitle}</h3>
-                                <p className="text-sm text-gray-600">{service.description?.slice(0, 100)}...</p>
-                                <div className="text-sm text-blue-600 font-medium">Category: {service.category}</div>
-                                <div className="text-lg font-bold text-green-600">${service.price}</div>
-                                <Link to={`/services/${service._id}`}>
-                                    <button className="mt-3 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:scale-105 transition">
-                                        See Details
-                                    </button>
-                                </Link>
+
+                {/* Right Content - Services */}
+                <div className="w-full md:w-3/4">
+                    {filteredServices.length === 0 ? (
+                        <div className="text-center text-red-500 text-lg font-medium py-10">
+                            No services found for this category or search term.
+                        </div>
+                    ) : (
+                        <>
+                            {/* Services Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {currentServices.map((service, index) => (
+                                    <motion.div
+                                        key={service._id}
+                                        className="bg-white rounded-2xl shadow-2xl flex flex-col h-full"
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        viewport={{ once: true }}
+                                    >
+                                        <img
+                                            src={service.serviceImage}
+                                            alt={service.serviceTitle}
+                                            className="w-full h-48 object-cover"
+                                        />
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="text-xl font-semibold">{service.serviceTitle}</h3>
+                                            <p className="text-sm text-gray-600 flex-grow">
+                                                {service.description?.slice(0, 100)}...
+                                            </p>
+                                            <div className="text-sm text-blue-600 font-medium">
+                                                Category: {service.category}
+                                            </div>
+                                            <div className="text-lg font-bold text-green-600">${service.price}</div>
+                                            <Link to={`/services/${service._id}`} className="mt-auto">
+                                                <button className="mt-3 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:scale-105 transition w-full">
+                                                    See Details
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
-                        </motion.div>
-                    ))}
+
+                            {/* Pagination */}
+                            {totalPages > 1 && (
+                                <div className="flex justify-center mt-6 space-x-2">
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className="btn btn-primary"
+                                    >
+                                        Previous
+                                    </button>
+                                    {Array.from({ length: totalPages }, (_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => handlePageChange(i + 1)}
+                                            className={`btn btn-sm ${currentPage === i + 1 ? 'btn-active' : ''}`}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                            className="btn btn-primary"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 };
