@@ -5,14 +5,31 @@ import { FaSignInAlt } from 'react-icons/fa';
 import { SiGnuprivacyguard } from 'react-icons/si';
 import { CgLogOut } from 'react-icons/cg';
 import { AuthContext } from '../../contexts/Authcontext/AuthContext';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
 
     const handleSignOut = () => {
         signOutUser()
-            .then(() => console.log('Signed out successfully'))
-            .catch((error) => console.log(error));
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logout Successful',
+                    text: 'You have been logged out successfully.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Logout Failed',
+                    text: 'Something went wrong. Please try again.',
+                });
+            });
     };
 
     const links = (

@@ -5,13 +5,14 @@ import { AuthContext } from '../../../contexts/Authcontext/AuthContext';
 import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from './SocialLogin';
 import { motion } from 'framer-motion';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const Login = () => {
     const { signInUser } = useContext(AuthContext);
 
     const location = useLocation();
     const navigate = useNavigate();
-    const from = location.state || '/';
+    const from = location.state?.from?.pathname || '/'; // safer fallback
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -22,6 +23,16 @@ const Login = () => {
         signInUser(email, password)
             .then(result => {
                 const loggedUser = result.user;
+
+                // Show success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcome back, ${loggedUser.displayName || 'User'}!`,
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
 
                 // Check if user already exists in the DB
                 fetch(`https://echo-serve-server.vercel.app/users?email=${loggedUser.email}`)
@@ -44,17 +55,21 @@ const Login = () => {
                                 .then(saved => {
                                     console.log('User saved to DB:', saved);
                                 })
-                                .catch(err => console.error(' Save error:', err));
+                                .catch(err => console.error('Save error:', err));
                         }
                     });
 
-                navigate(from);
+                navigate(from, { replace: true });
             })
             .catch(error => {
-                console.error(' Login error:', error);
+                console.error('Login error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: error.message || 'Please check your credentials and try again.',
+                });
             });
     };
-
 
     return (
         <motion.div
@@ -102,7 +117,7 @@ const Login = () => {
                                     placeholder="Password"
                                 />
                                 <div><a className="link link-hover">Forgot password?</a></div>
-                               
+
                                 <button className="btn btn-primary mt-4">Sign In</button>
 
                                 <div><Link to="/signUp" className="link link-hover">Don't have an account? Sign Up</Link></div>
