@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../../contexts/Authcontext/AuthContext';
 import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';  // Import SweetAlert2
 
 const SocialLogin = ({ from }) => {
     const { signInWithGoogle } = useContext(AuthContext);
@@ -10,6 +11,16 @@ const SocialLogin = ({ from }) => {
         signInWithGoogle()
             .then(result => {
                 const user = result.user;
+
+                // Show success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcome, ${user.displayName || 'User'}!`,
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
 
                 // Step 1: Check if user already exists
                 fetch(`https://echo-serve-server.vercel.app/users?email=${user.email}`)
@@ -30,11 +41,11 @@ const SocialLogin = ({ from }) => {
                             })
                                 .then(res => res.json())
                                 .then(saved => {
-                                    console.log(' Google user saved:', saved);
+                                    console.log('Google user saved:', saved);
                                     navigate(from || '/');
                                 })
                                 .catch(error => {
-                                    console.error(' Save error:', error);
+                                    console.error('Save error:', error);
                                 });
                         } else {
                             // Already exists, just navigate
@@ -43,7 +54,12 @@ const SocialLogin = ({ from }) => {
                     });
             })
             .catch(error => {
-                console.error(' Google login error:', error);
+                console.error('Google login error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: error.message || 'Please try again.',
+                });
             });
     };
 
@@ -51,7 +67,7 @@ const SocialLogin = ({ from }) => {
         <div>
             <div className="divider">OR</div>
             <div className='flex justify-center'>
-                <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5]">
+                <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5] flex items-center gap-2">
                     <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <g>
                             <path d="m0 0H512V512H0" fill="#fff"></path>
