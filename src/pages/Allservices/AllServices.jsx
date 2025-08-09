@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router';
 import useAuth from '../../hook/useAuth';
+import Loader from '../Loading/Loader';
 
 const AllServices = () => {
     const { user } = useAuth();
@@ -113,7 +114,7 @@ const AllServices = () => {
     };
 
     if (loading) {
-        return <div className="text-center py-10 text-xl">Loading all services...</div>;
+        return <Loader></Loader>
     }
 
     return (
