@@ -13,6 +13,9 @@ import ServiceDetails from "../pages/serviceDetails/serviceDetails";
 import MyServices from "../pages/Myservices/MyServices";
 import MyReviews from "../myreviews/MyReviews.jsx";
 import ErrorPage from "../pages/errorpage/ErrorPage";
+import About from "../pages/About/About.jsx";
+import FAQ from "../pages/FAQ/FAQ.jsx";
+
 
 
 const router = createBrowserRouter([
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
                 path: "/allServices",
                 Component: AllServices
 
+            },
+            {
+                path:"/about",
+                Component:About,
+            },
+            {
+                path:"/faq",
+                Component:FAQ,
             },
             {
                 path: "/addServices",
