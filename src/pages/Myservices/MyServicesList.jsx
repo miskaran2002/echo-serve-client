@@ -73,8 +73,8 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
             </h2>
 
             {/* Desktop Table */}
-            <div className="hidden md:block overflow-x-auto bg-white rounded-xl shadow-lg p-4">
-                <table className="table w-full">
+            <div className="hidden md:block overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+                <table className="table w-full text-gray-900 dark:text-gray-100">
                     <thead>
                         <tr className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
                             <th className="py-3 px-4 text-left">Logo</th>
@@ -86,16 +86,16 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
                     </thead>
                     <tbody>
                         {services.map(service => (
-                            <tr key={service._id} className="hover:bg-gray-50 transition duration-200">
+                            <tr key={service._id} className="hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200">
                                 <td className="py-3 px-4">
                                     <img
                                         src={service.serviceImage}
                                         alt={service.serviceTitle}
-                                        className="w-16 h-16 object-cover rounded-lg border border-gray-300"
+                                        className="w-16 h-16 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
                                     />
                                 </td>
-                                <td className="py-3 px-4 font-semibold text-gray-800">{service.serviceTitle}</td>
-                                <td className="py-3 px-4 text-gray-600">{service.category}</td>
+                                <td className="py-3 px-4 font-semibold">{service.serviceTitle}</td>
+                                <td className="py-3 px-4">{service.category}</td>
                                 <td className="py-3 px-4 text-green-600 font-medium">${service.price}</td>
                                 <td className="py-3 px-4 flex gap-2">
                                     <button
@@ -120,14 +120,17 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
             {/* Mobile Card View */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
                 {services.map(service => (
-                    <div key={service._id} className="bg-white rounded-xl shadow-md p-4 flex flex-col gap-2">
+                    <div
+                        key={service._id}
+                        className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 flex flex-col gap-2 text-gray-900 dark:text-gray-100"
+                    >
                         <img
                             src={service.serviceImage}
                             alt={service.serviceTitle}
-                            className="w-full h-40 object-cover rounded-lg border border-gray-300"
+                            className="w-full h-40 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
                         />
                         <h3 className="text-lg font-semibold">{service.serviceTitle}</h3>
-                        <p className="text-gray-600">{service.category}</p>
+                        <p>{service.category}</p>
                         <p className="text-green-600 font-medium">${service.price}</p>
                         <div className="flex flex-col gap-2 mt-2">
                             <button
@@ -152,19 +155,64 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
                 <Dialog
                     open={isOpen}
                     onClose={() => setIsOpen(false)}
-                    className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center"
+                    className="fixed inset-0 z-50 bg-black bg-opacity-40 dark:bg-opacity-80 flex items-center justify-center"
                 >
-                    <Dialog.Panel className="bg-white p-6 rounded shadow-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+                    <Dialog.Panel className="bg-white dark:bg-gray-900 p-6 rounded shadow-lg max-w-lg w-full max-h-[90vh] overflow-y-auto text-gray-900 dark:text-gray-100">
                         <Dialog.Title className="text-xl font-bold mb-4">Update Service</Dialog.Title>
                         <form onSubmit={handleUpdate} className="grid grid-cols-1 gap-3">
-                            <input name="serviceImage" defaultValue={selectedService.serviceImage} className="input input-bordered" placeholder="Image URL" required />
-                            <input name="serviceTitle" defaultValue={selectedService.serviceTitle} className="input input-bordered" placeholder="Title" required />
-                            <input name="companyName" defaultValue={selectedService.companyName} className="input input-bordered" placeholder="Company" required />
-                            <input name="website" defaultValue={selectedService.website} className="input input-bordered" placeholder="Website" required />
-                            <input name="category" defaultValue={selectedService.category} className="input input-bordered" placeholder="Category" required />
-                            <input type="number" name="price" defaultValue={selectedService.price} className="input input-bordered" placeholder="Price" required />
-                            <textarea name="description" defaultValue={selectedService.description} className="textarea textarea-bordered" placeholder="Description" required></textarea>
-                            <button type="submit" className="btn btn-primary">Update</button>
+                            <input
+                                name="serviceImage"
+                                defaultValue={selectedService.serviceImage}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Image URL"
+                                required
+                            />
+                            <input
+                                name="serviceTitle"
+                                defaultValue={selectedService.serviceTitle}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Title"
+                                required
+                            />
+                            <input
+                                name="companyName"
+                                defaultValue={selectedService.companyName}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Company"
+                                required
+                            />
+                            <input
+                                name="website"
+                                defaultValue={selectedService.website}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Website"
+                                required
+                            />
+                            <input
+                                name="category"
+                                defaultValue={selectedService.category}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Category"
+                                required
+                            />
+                            <input
+                                type="number"
+                                name="price"
+                                defaultValue={selectedService.price}
+                                className="input input-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Price"
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                defaultValue={selectedService.description}
+                                className="textarea textarea-bordered bg-white dark:bg-gray-800 dark:text-gray-100"
+                                placeholder="Description"
+                                required
+                            ></textarea>
+                            <button type="submit" className="btn btn-primary">
+                                Update
+                            </button>
                         </form>
                     </Dialog.Panel>
                 </Dialog>
