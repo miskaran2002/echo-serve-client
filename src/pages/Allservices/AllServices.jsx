@@ -60,7 +60,7 @@ const AllServices = () => {
 
     const handleCategorySelect = (e) => {
         setSelectedCategory(e.target.value);
-        setCurrentPage(1); // Reset to page 1 when category changes
+        setCurrentPage(1);
     };
 
     const handleSortChange = (e) => {
@@ -86,8 +86,7 @@ const AllServices = () => {
             filtered = filtered.filter(
                 (service) =>
                     service.serviceTitle?.toLowerCase().includes(term) ||
-                    (typeof service.category === 'string' &&
-                        service.category.toLowerCase().includes(term)) ||
+                    (typeof service.category === 'string' && service.category.toLowerCase().includes(term)) ||
                     service.companyName?.toLowerCase().includes(term)
             );
         }
@@ -114,16 +113,16 @@ const AllServices = () => {
     };
 
     if (loading) {
-        return <Loader></Loader>
+        return <Loader />;
     }
 
     return (
-        <div className="px-4 md:px-10 py-8">
+        <div className="px-4 md:px-10 py-8 bg-base-100 text-base-content min-h-screen">
             <h2 className="text-3xl font-bold text-yellow-500 text-center mb-8">All Services</h2>
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Left Sidebar */}
-                <div className="w-full md:w-1/4 bg-white rounded-lg shadow-lg p-4 space-y-4 lg:h-[1000px]">
+                <div className="w-full md:w-1/4 bg-base-200 rounded-lg shadow-lg p-4 space-y-4 lg:h-[1000px]">
                     <h3 className="text-lg font-bold text-blue-700 border-b pb-2">Filter Services</h3>
 
                     {/* Search */}
@@ -133,6 +132,7 @@ const AllServices = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="input input-bordered w-full"
+                        aria-label="Search services"
                     />
 
                     {/* Category Filter */}
@@ -140,6 +140,7 @@ const AllServices = () => {
                         value={selectedCategory}
                         onChange={handleCategorySelect}
                         className="select select-bordered w-full"
+                        aria-label="Select category filter"
                     >
                         <option value="">All Categories</option>
                         {fixedCategories.map((cat, idx) => (
@@ -154,6 +155,7 @@ const AllServices = () => {
                         value={sortOrder}
                         onChange={handleSortChange}
                         className="select select-bordered w-full"
+                        aria-label="Select sort order"
                     >
                         <option value="">Sort by Price</option>
                         <option value="asc">Price: Low to High</option>
@@ -164,7 +166,7 @@ const AllServices = () => {
                 {/* Right Content - Services */}
                 <div className="w-full md:w-3/4">
                     {filteredServices.length === 0 ? (
-                        <div className="text-center text-red-500 text-lg font-medium py-10">
+                        <div className="text-center text-error text-lg font-medium py-10">
                             No services found for this category or search term.
                         </div>
                     ) : (
@@ -174,7 +176,7 @@ const AllServices = () => {
                                 {currentServices.map((service, index) => (
                                     <motion.div
                                         key={service._id}
-                                        className="bg-white rounded-2xl shadow-2xl flex flex-col h-full"
+                                        className="bg-base-100 rounded-2xl shadow-2xl flex flex-col h-full"
                                         initial={{ opacity: 0, y: 30 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         transition={{ delay: index * 0.1 }}
@@ -183,17 +185,25 @@ const AllServices = () => {
                                         <img
                                             src={service.serviceImage}
                                             alt={service.serviceTitle}
-                                            className="w-full h-48 object-cover"
+                                            className="w-full h-48 object-cover rounded-t-2xl"
                                         />
                                         <div className="p-4 flex flex-col flex-grow">
-                                            <h3 className="text-xl font-semibold">{service.serviceTitle}</h3>
-                                            <p className="text-sm text-gray-600 flex-grow">
-                                                {service.description?.slice(0, 100)}...
+                                            <h3
+                                                className="text-xl font-semibold truncate"
+                                                title={service.serviceTitle}
+                                                aria-label={`Service title: ${service.serviceTitle}`}
+                                            >
+                                                {service.serviceTitle}
+                                            </h3>
+                                            <p className="text-sm text-gray-500 dark:text-gray-300 flex-grow">
+                                                {service.description?.length > 100
+                                                    ? `${service.description.slice(0, 100)}...`
+                                                    : service.description}
                                             </p>
-                                            <div className="text-sm text-blue-600 font-medium">
-                                                Category: {service.category}
+                                            <div className="mt-2">
+                                                <span className="badge badge-info mr-2">{service.category}</span>
                                             </div>
-                                            <div className="text-lg font-bold text-green-600">${service.price}</div>
+                                            <div className="text-lg font-bold text-success mt-2">${service.price}</div>
                                             <Link to={`/services/${service._id}`} className="mt-auto">
                                                 <button className="mt-3 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:scale-105 transition w-full">
                                                     See Details
@@ -211,6 +221,7 @@ const AllServices = () => {
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
                                         className="btn btn-primary"
+                                        aria-label="Previous page"
                                     >
                                         Previous
                                     </button>
@@ -219,6 +230,8 @@ const AllServices = () => {
                                             key={i}
                                             onClick={() => handlePageChange(i + 1)}
                                             className={`btn btn-sm ${currentPage === i + 1 ? 'btn-active' : ''}`}
+                                            aria-current={currentPage === i + 1 ? 'page' : undefined}
+                                            aria-label={`Page ${i + 1}`}
                                         >
                                             {i + 1}
                                         </button>
@@ -226,7 +239,8 @@ const AllServices = () => {
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                            className="btn btn-primary"
+                                        className="btn btn-primary"
+                                        aria-label="Next page"
                                     >
                                         Next
                                     </button>

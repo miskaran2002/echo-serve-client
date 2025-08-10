@@ -152,16 +152,16 @@ const AddServices = () => {
 
                 {/* Category checkboxes */}
                 <div className="md:col-span-2">
-                    <p className="mb-2 font-semibold text-gray-700">Select Categories:</p>
+                    <p className="mb-2 font-semibold text-gray-400">Select Categories:</p>
                     <div className="flex flex-wrap gap-4">
                         {categoriesList.map(cat => (
-                            <label key={cat} className="flex items-center gap-2">
+                            <label key={cat} className="flex items-center gap-2 text-gray-400">
                                 <input
                                     type="checkbox"
                                     value={cat}
                                     checked={formData.category.includes(cat)}
                                     onChange={handleCategoryChange}
-                                    className="checkbox"
+                                    className="checkbox text-gray-500"
                                 />
                                 <span className="text-sm">{cat}</span>
                             </label>
