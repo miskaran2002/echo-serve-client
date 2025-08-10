@@ -46,6 +46,15 @@ const AddServices = () => {
     const handleSubmit = e => {
         e.preventDefault();
 
+        // Basic validation for categories
+        if (formData.category.length === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Please select at least one category',
+            });
+            return;
+        }
+
         const service = {
             ...formData,
             price: parseFloat(formData.price),
@@ -85,7 +94,7 @@ const AddServices = () => {
                     });
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 Swal.fire({
                     title: 'Server Error!',
                     text: 'Something went wrong. Please try again later.',
@@ -146,22 +155,24 @@ const AddServices = () => {
                     value={formData.price}
                     onChange={handleChange}
                     placeholder="Price"
+                    min="0"
+                    step="0.01"
                     required
                     className="input input-bordered w-full"
                 />
 
                 {/* Category checkboxes */}
                 <div className="md:col-span-2">
-                    <p className="mb-2 font-semibold text-gray-400">Select Categories:</p>
+                    <p className="mb-2 font-semibold text-gray-700">Select Categories:</p>
                     <div className="flex flex-wrap gap-4">
                         {categoriesList.map(cat => (
-                            <label key={cat} className="flex items-center gap-2 text-gray-400">
+                            <label key={cat} className="flex items-center gap-2 text-gray-800 cursor-pointer">
                                 <input
                                     type="checkbox"
                                     value={cat}
                                     checked={formData.category.includes(cat)}
                                     onChange={handleCategoryChange}
-                                    className="checkbox text-gray-500"
+                                    className="checkbox"
                                 />
                                 <span className="text-sm">{cat}</span>
                             </label>
@@ -178,7 +189,9 @@ const AddServices = () => {
                     required
                     className="textarea textarea-bordered md:col-span-2"
                 />
-                <button type="submit" className="btn btn-primary md:col-span-2">Submit Service</button>
+                <button type="submit" className="btn btn-primary md:col-span-2">
+                    Submit Service
+                </button>
             </form>
         </motion.div>
     );
