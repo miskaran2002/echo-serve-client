@@ -69,12 +69,12 @@ const FAQ = () => {
                             onClick={() => toggleFAQ(index)}
                             className="flex justify-between items-center w-full px-6 py-4 text-left focus:outline-none"
                         >
-                            <span className="font-semibold text-lg">{faq.question}</span>
+                            <span className="font-semibold text-lg text-sky-700">{faq.question}</span>
                             <span className="text-2xl text-blue-600">{openIndex === index ? '-' : '+'}</span>
                         </button>
 
                         {openIndex === index && (
-                            <div className="px-6 pb-4 text-gray-700">{faq.answer}</div>
+                            <div className="px-6 pb-4 text-gray-400">{faq.answer}</div>
                         )}
                     </motion.div>
                 ))}

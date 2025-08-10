@@ -47,10 +47,10 @@ const About = () => {
                 />
 
                 <div className="max-w-xl">
-                    <p className="text-lg mb-4">
+                    <p className="text-lg text-sky-400 mb-4">
                         Hello! I am a passionate Computer Science student focused on software development, problem solving, and continuous learning.
                     </p>
-                    <p className="text-base text-gray-600">
+                    <p className="text-base text-sky-400">
                         I strive to build scalable and efficient applications and love exploring new technologies to improve user experiences.
                     </p>
                 </div>
