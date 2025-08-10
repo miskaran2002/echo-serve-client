@@ -15,6 +15,7 @@ import MyReviews from "../myreviews/MyReviews.jsx";
 import ErrorPage from "../pages/errorpage/ErrorPage";
 import About from "../pages/About/About.jsx";
 import FAQ from "../pages/FAQ/FAQ.jsx";
+import Contact from "../pages/Contact/Contact.jsx";
 
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path:"/faq",
                 Component:FAQ,
+            },
+            {
+                path:"/contact",
+                Component:Contact,
             },
             {
                 path: "/addServices",
