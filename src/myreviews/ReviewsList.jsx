@@ -10,7 +10,6 @@ const ReviewsList = ({ reviewsByUserPromise }) => {
     const [reviews, setReviews] = useState([]);
     const [editingReview, setEditingReview] = useState(null);
 
-    // Fetch reviews when component mounts
     useEffect(() => {
         reviewsByUserPromise()
             .then(data => setReviews(data))
@@ -74,10 +73,13 @@ const ReviewsList = ({ reviewsByUserPromise }) => {
     return (
         <>
             {reviews.length === 0 ? (
-                <p className="text-center text-gray-500">No reviews found.</p>
+                <p className="text-center text-gray-500 dark:text-gray-400">No reviews found.</p>
             ) : (
                 reviews.map(review => (
-                    <div key={review._id} className="bg-white rounded-xl shadow p-4 mb-4">
+                    <div
+                        key={review._id}
+                        className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 mb-4 text-gray-900 dark:text-gray-100"
+                    >
                         <h3 className="text-xl font-semibold mb-1">{review.serviceTitle}</h3>
                         <Rating
                             initialRating={review.rating}
@@ -87,45 +89,55 @@ const ReviewsList = ({ reviewsByUserPromise }) => {
                         />
                         <p className="mt-2">{review.text}</p>
                         <div className="mt-4 flex gap-4">
-                            <button onClick={() => setEditingReview(review)} className="btn btn-sm btn-primary">Update</button>
-                            <button onClick={() => handleDelete(review._id)} className="btn btn-sm btn-error">Delete</button>
+                            <button
+                                onClick={() => setEditingReview(review)}
+                                className="btn btn-sm btn-primary"
+                            >
+                                Update
+                            </button>
+                            <button
+                                onClick={() => handleDelete(review._id)}
+                                className="btn btn-sm btn-error"
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
                 ))
             )}
 
             {editingReview && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-                    <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-lg">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 dark:bg-opacity-80 z-50">
+                    <div className="bg-white dark:bg-gray-900 rounded-xl p-6 w-full max-w-lg shadow-lg text-gray-900 dark:text-gray-100">
                         <h2 className="text-xl font-bold mb-4">Update Review</h2>
                         <form onSubmit={handleUpdate} className="space-y-4 text-left">
                             <label className="block">
-                                <span className="text-gray-600">Service Title:</span>
+                                <span className="text-gray-700 dark:text-gray-300">Service Title:</span>
                                 <input
                                     type="text"
                                     value={editingReview.serviceTitle}
                                     readOnly
-                                    className="input input-bordered w-full mt-1"
+                                    className="input input-bordered w-full mt-1 bg-white dark:bg-gray-800 dark:text-gray-100"
                                 />
                             </label>
                             <label className="block">
-                                <span className="text-gray-600">Review:</span>
+                                <span className="text-gray-700 dark:text-gray-300">Review:</span>
                                 <textarea
                                     name="text"
                                     defaultValue={editingReview.text}
-                                    className="textarea textarea-bordered w-full mt-1"
+                                    className="textarea textarea-bordered w-full mt-1 bg-white dark:bg-gray-800 dark:text-gray-100"
                                     required
                                 />
                             </label>
                             <label className="block">
-                                <span className="text-gray-600">Rating:</span>
+                                <span className="text-gray-700 dark:text-gray-300">Rating:</span>
                                 <input
                                     name="rating"
                                     type="number"
                                     defaultValue={editingReview.rating}
                                     min="1"
                                     max="5"
-                                    className="input input-bordered w-full mt-1"
+                                    className="input input-bordered w-full mt-1 bg-white dark:bg-gray-800 dark:text-gray-100"
                                     required
                                 />
                             </label>
@@ -137,7 +149,9 @@ const ReviewsList = ({ reviewsByUserPromise }) => {
                                 >
                                     Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary">Update</button>
+                                <button type="submit" className="btn btn-primary">
+                                    Update
+                                </button>
                             </div>
                         </form>
                     </div>
