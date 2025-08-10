@@ -1,14 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Logo from '../../assets/logo.png';
 import { NavLink, Link } from 'react-router';
 import { FaSignInAlt } from 'react-icons/fa';
 import { SiGnuprivacyguard } from 'react-icons/si';
 import { CgLogOut } from 'react-icons/cg';
+import { Sun, Moon } from 'lucide-react';
 import { AuthContext } from '../../contexts/Authcontext/AuthContext';
 import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
+
+    // Theme State
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+    useEffect(() => {
+        document.querySelector('html').setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+    };
 
     const handleSignOut = () => {
         signOutUser()
@@ -75,9 +88,8 @@ const Navbar = () => {
                 </NavLink>
             </li>
 
-
-            {
-                user && (<li>
+            {user && (
+                <li>
                     <NavLink
                         to="/addServices"
                         className={({ isActive }) =>
@@ -86,10 +98,10 @@ const Navbar = () => {
                     >
                         Add Services
                     </NavLink>
-                </li>)
-            }
-            {
-                user && (<li>
+                </li>
+            )}
+            {user && (
+                <li>
                     <NavLink
                         to="/myServices"
                         className={({ isActive }) =>
@@ -98,10 +110,10 @@ const Navbar = () => {
                     >
                         My Services
                     </NavLink>
-                </li>)
-            }
-            {
-                user && (<li>
+                </li>
+            )}
+            {user && (
+                <li>
                     <NavLink
                         to="/myReviews"
                         className={({ isActive }) =>
@@ -110,8 +122,8 @@ const Navbar = () => {
                     >
                         My Reviews
                     </NavLink>
-                </li>)
-            }
+                </li>
+            )}
         </>
     );
 
@@ -119,6 +131,7 @@ const Navbar = () => {
         <div className="sticky top-0 z-50 bg-base-100">
             <div className="navbar shadow-xl">
                 <div className="navbar-start">
+                  
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -132,15 +145,21 @@ const Navbar = () => {
                     <Link to="/" className="text-xl">
                         <img src={Logo} alt="EchoServe Logo" className="h-20 mx-2 rounded-xl w-auto" />
                     </Link>
+                    {/* Theme Toggle Button */}
+                    <button onClick={toggleTheme} className="btn btn-circle btn-ghost">
+                        {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                    </button>
                 </div>
 
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 flex items-center gap-1">
+                    <ul className="menu menu-horizontal px-0.5 flex items-center gap-1">
                         {links}
                     </ul>
                 </div>
 
                 <div className="navbar-end gap-2">
+                   
+
                     {user ? (
                         <>
                             {user.photoURL && (
