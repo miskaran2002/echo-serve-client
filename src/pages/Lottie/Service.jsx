@@ -16,7 +16,7 @@ const Service = () => {
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
                     {/* Text Section */}
                     <div className="text-center lg:text-left lg:w-1/2">
-                        <h1 className="text-4xl font-extrabold mb-4">
+                        <h1 className="text-4xl text-blue-500 font-extrabold mb-4">
                             Welcome to Echo Serve
                         </h1>
                         <p className="text-lg text-gray-700 leading-relaxed mb-4">
