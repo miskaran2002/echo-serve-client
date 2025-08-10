@@ -68,8 +68,12 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
 
     return (
         <div className="p-4">
-            <h2 className='text-3xl font-bold mb-4'>Services created by you: {services.length}</h2>
-            <div className="overflow-x-auto bg-white rounded-xl shadow-lg p-4">
+            <h2 className='text-2xl md:text-3xl font-bold mb-4'>
+                Services created by you: {services.length}
+            </h2>
+
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto bg-white rounded-xl shadow-lg p-4">
                 <table className="table w-full">
                     <thead>
                         <tr className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
@@ -113,6 +117,35 @@ const MyServicesList = ({ servicesCreatedByPromise }) => {
                 </table>
             </div>
 
+            {/* Mobile Card View */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
+                {services.map(service => (
+                    <div key={service._id} className="bg-white rounded-xl shadow-md p-4 flex flex-col gap-2">
+                        <img
+                            src={service.serviceImage}
+                            alt={service.serviceTitle}
+                            className="w-full h-40 object-cover rounded-lg border border-gray-300"
+                        />
+                        <h3 className="text-lg font-semibold">{service.serviceTitle}</h3>
+                        <p className="text-gray-600">{service.category}</p>
+                        <p className="text-green-600 font-medium">${service.price}</p>
+                        <div className="flex flex-col gap-2 mt-2">
+                            <button
+                                className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white w-full"
+                                onClick={() => openEditModal(service)}
+                            >
+                                <FaEdit /> Edit
+                            </button>
+                            <button
+                                className="btn btn-sm bg-red-500 hover:bg-red-600 text-white w-full"
+                                onClick={() => handleDelete(service._id)}
+                            >
+                                <FaTrash /> Delete
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
 
             {/* Update Modal */}
             {isOpen && (
